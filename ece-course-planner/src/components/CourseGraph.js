@@ -74,8 +74,7 @@ const CourseGraph = ({ courses, selectedCategory }) => {
 
     // Update node positions on each tick
     simulation.on('tick', () => {
-      node
-        .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
+      node.attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
     });
 
     // Drag functions
