@@ -1,22 +1,20 @@
-let courses = [];
+let graphData = null;
 let simulation;
 
 // Fetch courses from the API
-fetch('/api/courses')
-    .then(response => response.json())
-    .then(data => {
-        courses = data;
-        initializeGraph(courses);
-        updateCourseList(courses);
-    });
+function fetchCourses(category = null) {
+    const url = category ? `/api/courses/${encodeURIComponent(category)}` : '/api/courses';
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            graphData = data;
+            updateVisualization();
+            updateCourseList(data.nodes);
+        });
+}
 
 function filterCourses(category) {
-    const filteredCourses = category 
-        ? courses.filter(course => course.category === category)
-        : courses;
-    
-    updateGraph(filteredCourses);
-    updateCourseList(filteredCourses);
+    fetchCourses(category);
     
     // Update filter button styles
     document.querySelectorAll('#category-filters button').forEach(button => {
@@ -37,7 +35,7 @@ function filterCourses(category) {
     });
 }
 
-function initializeGraph(courses) {
+function initializeVisualization() {
     const width = document.getElementById('graph').clientWidth;
     const height = document.getElementById('graph').clientHeight;
     
@@ -60,22 +58,36 @@ function initializeGraph(courses) {
     simulation = d3.forceSimulation()
         .force('charge', d3.forceManyBody().strength(-200))
         .force('center', d3.forceCenter(width / 2, height / 2))
-        .force('collision', d3.forceCollide().radius(60));
+        .force('collision', d3.forceCollide().radius(60))
+        .force('link', d3.forceLink().id(d => d.id).distance(120));
     
-    updateGraph(courses);
+    fetchCourses();
 }
 
-function updateGraph(courses) {
+function updateVisualization() {
+    if (!graphData) return;
+
     const g = d3.select('#graph g');
+    
+    // Update links
+    const link = g.selectAll('.link')
+        .data(graphData.links, d => `${d.source}-${d.target}`);
+    
+    link.exit().remove();
+    
+    const linkEnter = link.enter()
+        .append('line')
+        .attr('class', 'link')
+        .attr('stroke', '#999')
+        .attr('stroke-opacity', 0.6)
+        .attr('stroke-width', 2);
     
     // Update nodes
     const node = g.selectAll('.node')
-        .data(courses, d => d.code);
+        .data(graphData.nodes, d => d.id);
     
-    // Remove old nodes
     node.exit().remove();
     
-    // Add new nodes
     const nodeEnter = node.enter()
         .append('g')
         .attr('class', 'node')
@@ -91,14 +103,24 @@ function updateGraph(courses) {
     nodeEnter.append('text')
         .attr('text-anchor', 'middle')
         .attr('dy', 5)
-        .text(d => d.code);
+        .text(d => d.id);
     
     // Update simulation
-    simulation.nodes(courses)
-        .on('tick', () => {
-            g.selectAll('.node')
-                .attr('transform', d => `translate(${d.x},${d.y})`);
-        });
+    simulation
+        .nodes(graphData.nodes)
+        .force('link')
+        .links(graphData.links);
+    
+    simulation.on('tick', () => {
+        g.selectAll('.link')
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
+        
+        g.selectAll('.node')
+            .attr('transform', d => `translate(${d.x},${d.y})`);
+    });
     
     simulation.alpha(1).restart();
 }
@@ -107,12 +129,12 @@ function updateCourseList(courses) {
     const courseList = document.getElementById('course-list');
     courseList.innerHTML = `
         <h2 class="text-xl font-bold mb-4">${
-            courses.length === window.courses.length ? 'All Courses' : 'Filtered Courses'
+            courses.length === graphData.nodes.length ? 'All Courses' : 'Filtered Courses'
         }</h2>
         <div class="space-y-2">
             ${courses.map(course => `
                 <div class="course-item" style="border-color: ${categoryColors[course.category]}">
-                    <h3 class="font-semibold">${course.code}</h3>
+                    <h3 class="font-semibold">${course.id}</h3>
                     <p class="text-sm text-gray-600">${course.name}</p>
                     <div class="mt-2 flex items-center gap-2">
                         <span class="category-badge" style="background-color: ${categoryColors[course.category]}">
@@ -144,6 +166,9 @@ function dragended(event) {
     event.subject.fx = null;
     event.subject.fy = null;
 }
+
+// Initialize the visualization when the page loads
+document.addEventListener('DOMContentLoaded', initializeVisualization);
 
 const categoryColors = {
     "Electrical Engineering/Hardware": "#2563eb",
