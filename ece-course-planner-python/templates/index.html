@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Course Planner</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-blue-900 to-blue-600 text-white">
+        <div class="container mx-auto px-6 py-16">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">ECE Course Planner</h1>
+                <p class="text-xl mb-8">Visualize your academic journey with our interactive course prerequisite mapping tool</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Category Filter -->
+        <div class="mb-8 flex flex-wrap gap-2" id="category-filters">
+            <button class="px-4 py-2 rounded-full text-sm font-semibold bg-gray-800 text-white" 
+                    onclick="filterCourses(null)">
+                All Courses
+            </button>
+            {% for category in categories %}
+            <button class="px-4 py-2 rounded-full text-sm font-semibold bg-gray-200 text-gray-600 hover:bg-gray-300"
+                    onclick="filterCourses('{{ category }}')"
+                    style="--category-color: {{ category_colors[category] }}">
+                {{ category.split('/')[0] }}
+            </button>
+            {% endfor %}
+        </div>
+
+        <!-- Course Visualization and List -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Course Graph -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-lg p-4" style="height: 600px">
+                <div id="graph"></div>
+            </div>
+
+            <!-- Course List -->
+            <div class="lg:col-span-1 overflow-auto" style="max-height: 600px">
+                <div id="course-list" class="bg-white rounded-lg shadow-lg p-4">
+                    <!-- Course list will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 ECE Course Planner. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
