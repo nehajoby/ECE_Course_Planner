@@ -10,7 +10,7 @@
 </head>
 <body class="bg-gray-50">
     <!-- Hero Section -->
-    <header class="bg-gradient-to-r from-blue-900 to-blue-600 text-white">
+    <header class="bg-gradient-to-r from-[#8a0909] to-[#b50c0c] text-white">
         <div class="container mx-auto px-6 py-16">
             <div class="text-center">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">ECE Course Planner</h1>
@@ -41,6 +41,23 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Course Graph -->
             <div class="lg:col-span-2 bg-white rounded-lg shadow-lg p-4" style="height: 600px">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold">Course Visualization</h2>
+                    <div class="flex space-x-2">
+                        <button id="rearrange-btn" class="px-4 py-2 bg-[#b50c0c] text-white rounded hover:bg-[#8a0909] transition-colors" onclick="rearrangeGraph()">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                            </svg>
+                            Rearrange
+                        </button>
+                        <button id="reset-layout-btn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors" onclick="resetLayout()">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                            </svg>
+                            Reset
+                        </button>
+                    </div>
+                </div>
                 <div id="graph"></div>
             </div>
 
@@ -53,7 +70,7 @@
         </div>
     </main>
 
-    <footer class="bg-gray-800 text-white py-8 mt-16">
+    <footer class="bg-[#8a0909] text-white py-8 mt-16">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 ECE Course Planner. All rights reserved.</p>
         </div>

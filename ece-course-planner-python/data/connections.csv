@@ -1,3 +1,4 @@
+GE 1502,GE 1501,corequisite
 EECE 2150,GE 1111,prerequisite
 EECE 2150,GE 1502,prerequisite
 EECE 2150,MATH 2341,prerequisite
@@ -69,13 +70,6 @@ EECE 4649,PHYS 1171,prerequisite
 EECE 4694,MATH 2341,prerequisite
 EECE 4694,GE 1111,prerequisite
 EECE 4694,GE 1502,prerequisite
-EECE 4790,EECE 2322,prerequisite
-EECE 4790,EECE 2412,prerequisite
-EECE 4790,EECE 2520,prerequisite
-EECE 4790,EECE 2530,prerequisite
-EECE 4790,EECE 2540,prerequisite
-EECE 4790,EECE 2560,prerequisite
-EECE 4790,CS 3000,prerequisite
 EECE 4791,EECE 2322,prerequisite
 EECE 4791,EECE 2412,prerequisite
 EECE 4791,EECE 2520,prerequisite
@@ -83,7 +77,6 @@ EECE 4791,EECE 2530,prerequisite
 EECE 4791,EECE 2540,prerequisite
 EECE 4791,EECE 2560,prerequisite
 EECE 4791,CS 3000,prerequisite
-EECE 4792,EECE 4790,prerequisite
 EECE 4792,EECE 4791,prerequisite
 EECE 5115,MATH 2341,prerequisite
 EECE 5155,EECE 2540,prerequisite

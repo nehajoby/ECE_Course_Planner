@@ -1,4 +1,6 @@
 code,name,credits,category
+GE 1501,Cornerstone of Engineering 1,4,General/Uncategorized
+GE 1502,Cornerstone of Engineering 2,4,General/Uncategorized
 EECE 1990,Elective,1-4,General/Uncategorized
 EECE 2140,Computing Fundamentals for Engineers,4,Software Engineering
 EECE 2150,Circuits and Signals: Biomedical Applications,5,Electrical Engineering/Hardware
@@ -38,7 +40,6 @@ EECE 4638,Special Topics in Computer Engineering,4,General/Uncategorized
 EECE 4646,Optics for Engineers,4,General/Uncategorized
 EECE 4649,Biomedical Imaging Instrumentation,4,General/Uncategorized
 EECE 4694,Numerical Methods and Computer Applications,4,General/Uncategorized
-EECE 4790,Electrical and Computer Engineering Capstone 1,4,General/Uncategorized
 EECE 4791,Electrical and Computer Engineering Capstone 1,1,General/Uncategorized
 EECE 4792,Electrical and Computer Engineering Capstone 2,4,General/Uncategorized
 EECE 4990,Elective,1-4,General/Uncategorized
@@ -121,7 +122,6 @@ MATH 2321,,,NonEECE
 PHYS 1151,,,NonEECE
 CHEM 1211,,,NonEECE
 BIOE 2365,,,NonEECE
-GE 1502,,,NonEECE
 DS 5020,,,NonEECE
 CS 3700,,,NonEECE
 PHYS 1175,,,NonEECE
