@@ -30,7 +30,8 @@
             {% for category in categories %}
             <button class="px-4 py-2 rounded-full text-sm font-semibold bg-gray-200 text-gray-600 hover:bg-gray-300"
                     onclick="filterCourses('{{ category }}')"
-                    style="--category-color: {{ category_colors[category] }}">
+                    data-color="{{ category_colors[category] }}"
+                    data-category="{{ category }}">
                 {{ category.split('/')[0] }}
             </button>
             {% endfor %}

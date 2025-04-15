@@ -1,0 +1,128 @@
+code,name,credits,category
+EECE 1990,Elective,1-4,General/Uncategorized
+EECE 2140,Computing Fundamentals for Engineers,4,Software Engineering
+EECE 2150,Circuits and Signals: Biomedical Applications,5,Electrical Engineering/Hardware
+EECE 2160,Embedded Design: Enabling Robotics,4,Embedded/Firmware Engineering
+EECE 2210,Electrical Engineering,4,General/Uncategorized
+EECE 2211,Lab for EECE 2210,1,General/Uncategorized
+EECE 2310,Introduction to Digital Design and Computer Architecture,4,Embedded/Firmware Engineering
+EECE 2311,Lab for EECE 2310,1,General/Uncategorized
+EECE 2322,Fundamentals of Digital Design and Computer Organization,4,Embedded/Firmware Engineering
+EECE 2323,Lab for EECE 2322,1,General/Uncategorized
+EECE 2412,Fundamentals of Electronics,4,Electrical Engineering/Hardware
+EECE 2413,Lab for EECE 2412,1,General/Uncategorized
+EECE 2520,Fundamentals of Linear Systems,4,General/Uncategorized
+EECE 2530,Fundamentals of Electromagnetics,4,Electrical Engineering/Hardware
+EECE 2531,Lab for EECE 2530,1,General/Uncategorized
+EECE 2540,Fundamentals of Networks,4,General/Uncategorized
+EECE 2560,Fundamentals of Engineering Algorithms,4,Software Engineering
+EECE 2750,Enabling Engineering,4,General/Uncategorized
+EECE 2949,Introductory Directed Research in Electrical and Computer Engineering,4,General/Uncategorized
+EECE 2990,Elective,1-4,General/Uncategorized
+EECE 2992,Research,0,General/Uncategorized
+EECE 3324,Computer Architecture and Organization,4,Embedded/Firmware Engineering
+EECE 3392,Electronic Materials,4,General/Uncategorized
+EECE 3400,Introduction to Communication Systems,4,Electrical Engineering/Hardware
+EECE 3410,Electronic Design,4,General/Uncategorized
+EECE 3468,Analysis of Random Phenomena in Electrical and Computer Engineering,4,General/Uncategorized
+EECE 3990,Elective,1-4,General/Uncategorized
+EECE 4512,Healthcare Technologies: Sensors Systems and Analysis,4,General/Uncategorized
+EECE 4520,Software Engineering 1,4,Software Engineering
+EECE 4534,Microprocessor-Based Design,4,Embedded/Firmware Engineering
+EECE 4535,Lab for EECE 4534,1,General/Uncategorized
+EECE 4574,Wireless Communication Circuits,4,Electrical Engineering/Hardware
+EECE 4604,Integrated Circuit Devices,4,Electrical Engineering/Hardware
+EECE 4630,Robotics,4,Embedded/Firmware Engineering
+EECE 4632,Hardware-Software Codesign for FPGA-Based Systems,4,Electrical Engineering/Hardware
+EECE 4638,Special Topics in Computer Engineering,4,General/Uncategorized
+EECE 4646,Optics for Engineers,4,General/Uncategorized
+EECE 4649,Biomedical Imaging Instrumentation,4,General/Uncategorized
+EECE 4694,Numerical Methods and Computer Applications,4,General/Uncategorized
+EECE 4790,Electrical and Computer Engineering Capstone 1,4,General/Uncategorized
+EECE 4791,Electrical and Computer Engineering Capstone 1,1,General/Uncategorized
+EECE 4792,Electrical and Computer Engineering Capstone 2,4,General/Uncategorized
+EECE 4990,Elective,1-4,General/Uncategorized
+EECE 4991,Research,4,General/Uncategorized
+EECE 4992,Directed Study,1-4,General/Uncategorized
+EECE 5115,Dynamical Systems in Biological Engineering,4,General/Uncategorized
+EECE 5155,Wireless Sensor Networks and the Internet of Things,4,General/Uncategorized
+EECE 5161,Thin Film Technologies,4,General/Uncategorized
+EECE 5170,Introduction to Multiferroics Materials and Systems,4,General/Uncategorized
+EECE 5360,Combinatorial Optimization,4,General/Uncategorized
+EECE 5550,Mobile Robotics,4,Embedded/Firmware Engineering
+EECE 5552,Assistive Robotics,4,Embedded/Firmware Engineering
+EECE 5554,Robotics Sensing and Navigation,4,Embedded/Firmware Engineering
+EECE 5576,Wireless Communication Systems,4,Electrical Engineering/Hardware
+EECE 5580,Classical Control Systems,4,General/Uncategorized
+EECE 5582,Making Systems Reliable—An Introduction to Coding Theory,4,General/Uncategorized
+EECE 5606,Micro- and Nanofabrication,4,General/Uncategorized
+EECE 5608,Magnetic Materials for Next-Generation Electronics,4,Electrical Engineering/Hardware
+EECE 5610,Digital Control Systems,4,General/Uncategorized
+EECE 5612,Statistical Inference: An Introduction for Engineers and Data Analysts,4,Software Engineering
+EECE 5614,Reinforcement Learning and Decision Making Under Uncertainty,4,General/Uncategorized
+EECE 5626,Image Processing and Pattern Recognition,4,General/Uncategorized
+EECE 5639,Computer Vision,4,General/Uncategorized
+EECE 5640,High-Performance Computing,4,Electrical Engineering/Hardware
+EECE 5641,Introduction to Software Security,4,Software Engineering
+EECE 5642,Data Visualization,4,Software Engineering
+EECE 5643,Simulation and Performance Evaluation,4,Electrical Engineering/Hardware
+EECE 5644,Introduction to Machine Learning and Pattern Recognition,4,Software Engineering
+EECE 5645,Parallel Processing for Data Analytics,4,Software Engineering
+EECE 5647,Nanophotonics,4,General/Uncategorized
+EECE 5649,Design of Analog Integrated Circuits with Complementary Metal-Oxide-Semiconductor Technology,4,Electrical Engineering/Hardware
+EECE 5651,Introduction to Photonic Devices,4,Electrical Engineering/Hardware
+EECE 5652,Microwave Circuits and Systems,4,Electrical Engineering/Hardware
+EECE 5653,Introduction to Quantum Engineering,4,General/Uncategorized
+EECE 5654,Design and Prototyping of Optical Systems for Engineering Applications,4,General/Uncategorized
+EECE 5665,Signal Processing for Global Navigation Satellite Systems,4,General/Uncategorized
+EECE 5666,Digital Signal Processing,4,General/Uncategorized
+EECE 5670,Sustainable Energy: Materials Conversion Storage and Usage,4,General/Uncategorized
+EECE 5680,Electric Drives,4,General/Uncategorized
+EECE 5681,Lab for EECE 5680,0,General/Uncategorized
+EECE 5682,Power Systems Analysis 1,4,Electrical Engineering/Hardware
+EECE 5684,Power Electronics,4,Electrical Engineering/Hardware
+EECE 5685,Lab for EECE 5684,0,General/Uncategorized
+EECE 5686,Electrical Machines,4,General/Uncategorized
+EECE 5688,Analysis of Unbalanced Power Grids,4,Electrical Engineering/Hardware
+EECE 5690,Electric Vehicle Powertrains,4,Electrical Engineering/Hardware
+EECE 5692,Antennas for Wireless Communication and Sensing,4,Electrical Engineering/Hardware
+EECE 5693,Electromagnetic Devices for RF and Wireless Communications,4,Electrical Engineering/Hardware
+EECE 5697,Acoustics and Sensing,4,General/Uncategorized
+EECE 5698,Special Topics in Electrical and Computer Engineering,4,General/Uncategorized
+EECE 5699,Computer Hardware and System Security,4,Electrical Engineering/Hardware
+CS 3000,,,NonEECE
+CS 2510,,,NonEECE
+BIOE 3210,,,NonEECE
+DS 5230,,,NonEECE
+DS 5220,,,NonEECE
+PHYS 1155,,,NonEECE
+IE 3412,,,NonEECE
+MATH 3081,,,NonEECE
+PHYS 1165,,,NonEECE
+CS 5600,,,NonEECE
+EECE 7376,,,NonEECE
+CHEM 1151,,,NonEECE
+MGSC 2301,,,NonEECE
+CS 1800,,,NonEECE
+MATH 1242,,,NonEECE
+MATH 1215,,,NonEECE
+PHYS 1171,,,NonEECE
+CS 3650,,,NonEECE
+GE 1111,,,NonEECE
+MATH 2331,,,NonEECE
+EECE 7204,,,NonEECE
+MATH 2280,,,NonEECE
+MATH 1342,,,NonEECE
+MATH 2341,,,NonEECE
+EECE 7205,,,NonEECE
+ME 4555,,,NonEECE
+CIVE 3464,,,NonEECE
+MATH 2321,,,NonEECE
+PHYS 1151,,,NonEECE
+CHEM 1211,,,NonEECE
+BIOE 2365,,,NonEECE
+GE 1502,,,NonEECE
+DS 5020,,,NonEECE
+CS 3700,,,NonEECE
+PHYS 1175,,,NonEECE
+PHYS 1145,,,NonEECE

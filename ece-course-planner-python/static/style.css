@@ -33,6 +33,13 @@
     margin-bottom: 0.5rem;
     padding: 1rem;
     border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.course-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .category-badge {
@@ -42,4 +49,30 @@
     color: white;
     display: inline-block;
     margin-right: 0.5rem;
+}
+
+/* Tooltip styles */
+.tooltip {
+    transition: opacity 0.3s;
+    font-size: 0.875rem;
+    z-index: 1000;
+}
+
+/* Course details panel */
+#course-details {
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+/* Highlight effect for nodes */
+.node circle.highlight {
+    stroke: #ffd700;
+    stroke-width: 3px;
+}
+
+/* Highlight effect for links */
+.link.highlight {
+    stroke-opacity: 1;
+    stroke-width: 3px;
 }
