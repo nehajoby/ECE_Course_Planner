@@ -625,7 +625,8 @@ function rearrangeGraph() {
         });
     }
     
-    // Reset positions for nodes that weren't manually positioned
+    // Create a list of nodes that need to be arranged (not manually positioned)
+    const nodesToArrange = [];
     visibleNodes.forEach(node => {
         // Skip nodes that were manually positioned by the user
         if (manuallyPositionedNodes.has(node.id)) {
@@ -636,6 +637,9 @@ function rearrangeGraph() {
         // Clear any previous fixed positions for non-manually positioned nodes
         node.fx = null;
         node.fy = null;
+        
+        // Add this node to the list of nodes to arrange
+        nodesToArrange.push(node);
         
         const level = getCourseLevel(node.id);
         const category = node.category || 'Other';
@@ -650,6 +654,8 @@ function rearrangeGraph() {
         
         nodesByLevelAndCategory[level][category].push(node);
     });
+    
+    // Only arrange nodes that aren't manually positioned
     
     // Get graph dimensions
     const width = document.getElementById('graph').clientWidth;
@@ -837,6 +843,87 @@ function resetHighlights() {
     d3.select('#graph g .links-group').selectAll('.link').style('opacity', 0.6);
 }
 
+// Function to clear the plan but keep required courses and their prerequisites
+function clearPlan() {
+    // Keep track of which courses were in the plan before clearing
+    const previouslySelected = new Set(selectedCourses);
+    
+    // Clear the selected courses set except for mandatory courses
+    selectedCourses.clear();
+    
+    // Add back the mandatory courses
+    mandatoryCourses.forEach(courseId => {
+        // Check if the course exists in the data
+        const courseExists = graphData.nodes.some(node => node.id === courseId);
+        if (courseExists) {
+            selectedCourses.add(courseId);
+        }
+    });
+    
+    // Helper function to get the actual ID from a link source/target
+    function getLinkNodeId(linkEnd) {
+        return typeof linkEnd === 'object' ? linkEnd.id : linkEnd;
+    }
+    
+    // Find all prerequisites of mandatory courses and add them to the plan
+    const coursesToKeep = new Set(mandatoryCourses);
+    
+    // Function to recursively find all prerequisites
+    function findAllPrerequisites(courseId) {
+        // Find direct prerequisites
+        const prereqLinks = graphData.links.filter(link => {
+            const targetId = getLinkNodeId(link.target);
+            return targetId === courseId && link.type === 'prerequisite';
+        });
+        
+        prereqLinks.forEach(link => {
+            const sourceId = getLinkNodeId(link.source);
+            if (!coursesToKeep.has(sourceId)) {
+                coursesToKeep.add(sourceId);
+                selectedCourses.add(sourceId);
+                // Recursively find prerequisites of this prerequisite
+                findAllPrerequisites(sourceId);
+            }
+        });
+    }
+    
+    // Find prerequisites for all mandatory courses
+    mandatoryCourses.forEach(courseId => {
+        findAllPrerequisites(courseId);
+    });
+    
+    console.log('Courses to keep (including prerequisites):', Array.from(coursesToKeep));
+    
+    // Update visibleCourses to include mandatory courses and their prerequisites
+    visibleCourses.clear();
+    coursesToKeep.forEach(courseId => {
+        // Check if the course exists in the data
+        const courseExists = graphData.nodes.some(node => node.id === courseId);
+        if (courseExists) {
+            visibleCourses.add(courseId);
+        }
+    });
+    
+    // Clear manual positions for courses not in the coursesToKeep set
+    graphData.nodes.forEach(node => {
+        if (!coursesToKeep.has(node.id)) {
+            // Remove from manually positioned nodes
+            manuallyPositionedNodes.delete(node.id);
+            // Clear fixed positions
+            node.fx = null;
+            node.fy = null;
+        }
+    });
+    
+    // Update the visualization
+    updateVisualization();
+    
+    // Update the course list
+    updateCourseList(graphData.nodes);
+    
+    console.log('Plan cleared, keeping mandatory courses and prerequisites:', Array.from(selectedCourses));
+}
+
 // Function to add a course to the plan
 function addCourseToPlan(courseId) {
     // Add the course to the selected courses set
@@ -850,7 +937,7 @@ function addCourseToPlan(courseId) {
         return typeof linkEnd === 'object' ? linkEnd.id : linkEnd;
     }
     
-    // Find prerequisites and make them visible
+    // Find prerequisites and make them visible and add them to the plan
     const prereqLinks = graphData.links.filter(link => {
         const targetId = getLinkNodeId(link.target);
         return targetId === courseId && link.type === 'prerequisite';
@@ -875,6 +962,7 @@ function addCourseToPlan(courseId) {
                 limitedPrereqs.forEach(link => {
                     const sourceId = getLinkNodeId(link.source);
                     visibleCourses.add(sourceId);
+                    selectedCourses.add(sourceId); // Add to selected courses
                 });
             } else {
                 // If no EECE courses, show at most 2 prerequisites
@@ -883,6 +971,7 @@ function addCourseToPlan(courseId) {
                 limitedPrereqs.forEach(link => {
                     const sourceId = getLinkNodeId(link.source);
                     visibleCourses.add(sourceId);
+                    selectedCourses.add(sourceId); // Add to selected courses
                 });
             }
         } else if (prerequisiteLogic[courseId].type === 'COMPLEX') {
@@ -929,6 +1018,7 @@ function addCourseToPlan(courseId) {
                 const sourceId = getLinkNodeId(link.source);
                 if (representativePrereqs.has(sourceId)) {
                     visibleCourses.add(sourceId);
+                    selectedCourses.add(sourceId); // Add to selected courses
                 }
             });
             
@@ -938,6 +1028,7 @@ function addCourseToPlan(courseId) {
             prereqLinks.forEach(link => {
                 const sourceId = getLinkNodeId(link.source);
                 visibleCourses.add(sourceId);
+                selectedCourses.add(sourceId); // Add to selected courses
             });
         }
     } else {
@@ -945,6 +1036,7 @@ function addCourseToPlan(courseId) {
         prereqLinks.forEach(link => {
             const sourceId = getLinkNodeId(link.source);
             visibleCourses.add(sourceId);
+            selectedCourses.add(sourceId); // Add to selected courses
         });
     }
     
@@ -954,9 +1046,24 @@ function addCourseToPlan(courseId) {
         return targetId === courseId && link.type === 'corequisite';
     });
     
+    // Add all corequisites to the plan and make them visible
     coreqLinks.forEach(link => {
         const sourceId = getLinkNodeId(link.source);
         visibleCourses.add(sourceId);
+        selectedCourses.add(sourceId); // Add corequisite to selected courses
+    });
+    
+    // Find courses that have this course as a corequisite
+    const reverseCoreqLinks = graphData.links.filter(link => {
+        const sourceId = getLinkNodeId(link.source);
+        return sourceId === courseId && link.type === 'corequisite';
+    });
+    
+    // Add all reverse corequisites to the plan and make them visible
+    reverseCoreqLinks.forEach(link => {
+        const targetId = getLinkNodeId(link.target);
+        visibleCourses.add(targetId);
+        selectedCourses.add(targetId); // Add reverse corequisite to selected courses
     });
     
     // Update the visualization
@@ -970,10 +1077,86 @@ function addCourseToPlan(courseId) {
     console.log('Visible courses:', Array.from(visibleCourses));
 }
 
+// Function to find all dependencies of a course
+function findAllDependencies(courseId) {
+    const dependencies = new Set();
+    
+    // Helper function to get the actual ID from a link source/target
+    function getLinkNodeId(linkEnd) {
+        return typeof linkEnd === 'object' ? linkEnd.id : linkEnd;
+    }
+    
+    // Function to recursively find all courses that depend on this course
+    function findDependentCourses(id) {
+        // Find courses that have this course as a prerequisite
+        const dependentCourses = graphData.links.filter(link => {
+            const sourceId = getLinkNodeId(link.source);
+            return sourceId === id && link.type === 'prerequisite';
+        });
+        
+        dependentCourses.forEach(link => {
+            const targetId = getLinkNodeId(link.target);
+            if (!dependencies.has(targetId) && !mandatoryCourses.includes(targetId) && selectedCourses.has(targetId)) {
+                dependencies.add(targetId);
+                findDependentCourses(targetId);
+            }
+        });
+        
+        // Find courses that have this course as a corequisite
+        const coreqCourses = graphData.links.filter(link => {
+            const sourceId = getLinkNodeId(link.source);
+            return sourceId === id && link.type === 'corequisite';
+        });
+        
+        coreqCourses.forEach(link => {
+            const targetId = getLinkNodeId(link.target);
+            if (!dependencies.has(targetId) && !mandatoryCourses.includes(targetId) && selectedCourses.has(targetId)) {
+                dependencies.add(targetId);
+                findDependentCourses(targetId);
+            }
+        });
+    }
+    
+    findDependentCourses(courseId);
+    return dependencies;
+}
+
 // Function to remove a course from the plan
-function removeCourseFromPlan(courseId) {
-    // Remove the course from the selected courses set
-    selectedCourses.delete(courseId);
+function removeCourseFromPlan(courseId, removeDependencies = false) {
+    // Check if this is a mandatory course
+    if (mandatoryCourses.includes(courseId)) {
+        console.log(`Cannot remove mandatory course: ${courseId}`);
+        alert(`${courseId} is a mandatory course and cannot be removed.`);
+        return;
+    }
+    
+    // Find all dependencies of this course
+    const dependencies = findAllDependencies(courseId);
+    
+    // If there are dependencies and we're not explicitly removing them, ask the user what to do
+    if (dependencies.size > 0 && !removeDependencies) {
+        const dependencyList = Array.from(dependencies).join(', ');
+        const confirmRemove = confirm(`Removing ${courseId} will affect these dependent courses: ${dependencyList}\n\nClick OK to remove ${courseId} and all its dependencies.\nClick Cancel to remove only ${courseId}.`);
+        
+        if (confirmRemove) {
+            // Remove the course and all its dependencies
+            selectedCourses.delete(courseId);
+            dependencies.forEach(depId => {
+                selectedCourses.delete(depId);
+            });
+        } else {
+            // Just remove this course
+            selectedCourses.delete(courseId);
+        }
+    } else {
+        // No dependencies or we're explicitly removing them
+        selectedCourses.delete(courseId);
+        if (removeDependencies) {
+            dependencies.forEach(depId => {
+                selectedCourses.delete(depId);
+            });
+        }
+    }
     
     // Recalculate which courses should be visible
     // First, clear the visibleCourses set
@@ -988,7 +1171,10 @@ function removeCourseFromPlan(courseId) {
     selectedCourses.forEach(id => {
         // Add the selected course
         visibleCourses.add(id);
-        
+    });
+    
+    // Now add prerequisites and corequisites for all selected courses
+    selectedCourses.forEach(id => {
         // Add its prerequisites
         const prereqLinks = graphData.links.filter(link => {
             const targetId = getLinkNodeId(link.target);
@@ -997,7 +1183,9 @@ function removeCourseFromPlan(courseId) {
         
         prereqLinks.forEach(link => {
             const sourceId = getLinkNodeId(link.source);
-            visibleCourses.add(sourceId);
+            if (selectedCourses.has(sourceId)) {
+                visibleCourses.add(sourceId);
+            }
         });
         
         // Add its corequisites
@@ -1008,9 +1196,18 @@ function removeCourseFromPlan(courseId) {
         
         coreqLinks.forEach(link => {
             const sourceId = getLinkNodeId(link.source);
-            visibleCourses.add(sourceId);
+            if (selectedCourses.has(sourceId)) {
+                visibleCourses.add(sourceId);
+            }
         });
     });
+    
+    // Close the details panel if it's showing the removed course
+    const detailsPanel = document.getElementById('course-details');
+    if (detailsPanel && detailsPanel.querySelector('h2') && 
+        detailsPanel.querySelector('h2').textContent === courseId) {
+        detailsPanel.style.transform = 'translateX(100%)';
+    }
     
     // Update the visualization
     updateVisualization();
@@ -1136,8 +1333,9 @@ function showCourseDetails(courseId) {
         
         <div class="mb-6">
             ${selectedCourses.has(course.id) ? 
-                `<button id="remove-course-btn" class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors">
-                    Remove from Plan
+                `<button id="remove-course-btn" class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
+                    ${mandatoryCourses.includes(course.id) ? 'disabled style="opacity: 0.5; cursor: not-allowed;" title="Mandatory course cannot be removed"' : ''}>
+                    ${mandatoryCourses.includes(course.id) ? 'Mandatory Course' : 'Remove from Plan'}
                 </button>` : 
                 `<button id="add-course-btn" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
                     Add to Plan
@@ -1213,11 +1411,12 @@ function showCourseDetails(courseId) {
     
     // Remove course button functionality
     const removeCourseBtn = detailsPanel.querySelector('#remove-course-btn');
-    if (removeCourseBtn) {
+    if (removeCourseBtn && !mandatoryCourses.includes(course.id)) {
         removeCourseBtn.onclick = () => {
-            removeCourseFromPlan(course.id);
-            // Update the details panel to show the Add button
-            showCourseDetails(course.id);
+            removeCourseFromPlan(course.id, false); // Pass false to show the confirmation dialog
+            // Close the details panel
+            detailsPanel.style.transform = 'translateX(100%)';
+            resetHighlights();
         };
     }
     
